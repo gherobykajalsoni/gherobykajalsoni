@@ -1,14 +1,21 @@
 /**
  * Initial catalog + homepage content, loaded by prisma/seed.ts.
- * Images point at /public placeholders until the client's Cloudinary media is uploaded.
+ * Images are placeholder assets already uploaded to Cloudinary under ghero/<folder>/<name>.
  */
+
+const CLOUD = process.env.CLOUDINARY_CLOUD_NAME;
+if (!CLOUD) throw new Error("CLOUDINARY_CLOUD_NAME is not set");
+
+/** Public URL of a placeholder image in Cloudinary: asset("products", "saree-red"). */
+const asset = (folder: string, name: string) =>
+  `https://res.cloudinary.com/${CLOUD}/image/upload/ghero/${folder}/${name}.jpg`;
 
 const sub = (id: string, name: string, slug: string) => ({ id, name, slug });
 
 // Placeholder images reuse existing assets until the client shares category photography.
 export const DUMMY_CATEGORIES = [
   {
-    id: "cat-1", name: "Sarees", slug: "sarees", image: "/images/categories/sarees.jpg", productCount: 24,
+    id: "cat-1", name: "Sarees", slug: "sarees", image: asset("categories", "sarees"), productCount: 24,
     subcategories: [
       sub("sub-1-1", "Gaji Silk", "gaji-silk"),
       sub("sub-1-2", "Banarasi", "banarasi"),
@@ -18,7 +25,7 @@ export const DUMMY_CATEGORIES = [
     ],
   },
   {
-    id: "cat-2", name: "Suits", slug: "suits", image: "/images/categories/suits.jpg", productCount: 21,
+    id: "cat-2", name: "Suits", slug: "suits", image: asset("categories", "suits"), productCount: 21,
     subcategories: [
       sub("sub-2-1", "3-Piece Suits", "3-piece-suits"),
       sub("sub-2-2", "Anarkali", "anarkali"),
@@ -27,7 +34,7 @@ export const DUMMY_CATEGORIES = [
     ],
   },
   {
-    id: "cat-3", name: "Lehengas", slug: "lehengas", image: "/images/categories/lehengas.jpg", productCount: 18,
+    id: "cat-3", name: "Lehengas", slug: "lehengas", image: asset("categories", "lehengas"), productCount: 18,
     subcategories: [
       sub("sub-3-1", "Bridal Lehengas", "bridal-lehengas"),
       sub("sub-3-2", "Designer Lehengas", "designer-lehengas"),
@@ -35,11 +42,11 @@ export const DUMMY_CATEGORIES = [
     ],
   },
   {
-    id: "cat-4", name: "Dresses / Custom Outfits", slug: "dresses-custom-outfits", image: "/images/categories/kurtis.jpg", productCount: 12,
+    id: "cat-4", name: "Dresses / Custom Outfits", slug: "dresses-custom-outfits", image: asset("categories", "kurtis"), productCount: 12,
     subcategories: [],
   },
   {
-    id: "cat-5", name: "Jewellery", slug: "jewellery", image: "/images/categories/dupattas.jpg", productCount: 30,
+    id: "cat-5", name: "Jewellery", slug: "jewellery", image: asset("categories", "dupattas"), productCount: 30,
     subcategories: [
       sub("sub-5-1", "Imitation Jewellery", "imitation-jewellery"),
       sub("sub-5-2", "One-Gram Jewellery", "one-gram-jewellery"),
@@ -48,7 +55,7 @@ export const DUMMY_CATEGORIES = [
     ],
   },
   {
-    id: "cat-6", name: "Bridal & Wedding", slug: "bridal-wedding", image: "/images/categories/anarkalis.jpg", productCount: 15,
+    id: "cat-6", name: "Bridal & Wedding", slug: "bridal-wedding", image: asset("categories", "anarkalis"), productCount: 15,
     subcategories: [
       sub("sub-6-1", "Bridal Outfits", "bridal-outfits"),
       sub("sub-6-2", "Bridal Jewellery", "bridal-jewellery"),
@@ -69,7 +76,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-1-2", name: "Banarasi", slug: "banarasi" },
     basePrice: 8999,
     baseMrp: 14999,
-    images: ["/images/products/saree-red.jpg"],
+    images: [asset("products", "saree-red")],
     isBestseller: true,
     isNewArrival: false,
     variants: [
@@ -87,7 +94,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-3-1", name: "Bridal Lehengas", slug: "bridal-lehengas" },
     basePrice: 24999,
     baseMrp: 39999,
-    images: ["/images/products/lehenga-pink.jpg"],
+    images: [asset("products", "lehenga-pink")],
     isBestseller: true,
     isNewArrival: true,
     variants: [
@@ -107,7 +114,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: null,
     basePrice: 1999,
     baseMrp: 3499,
-    images: ["/images/products/kurti-teal.jpg"],
+    images: [asset("products", "kurti-teal")],
     isBestseller: false,
     isNewArrival: true,
     variants: [
@@ -128,7 +135,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-2-2", name: "Anarkali", slug: "anarkali" },
     basePrice: 12999,
     baseMrp: 19999,
-    images: ["/images/products/anarkali-navy.jpg"],
+    images: [asset("products", "anarkali-navy")],
     isBestseller: true,
     isNewArrival: false,
     variants: [
@@ -148,7 +155,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-2-1", name: "3-Piece Suits", slug: "3-piece-suits" },
     basePrice: 4499,
     baseMrp: 6999,
-    images: ["/images/products/suit-peach.jpg"],
+    images: [asset("products", "suit-peach")],
     isBestseller: false,
     isNewArrival: true,
     variants: [
@@ -169,7 +176,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-6-3", name: "Wedding Accessories", slug: "wedding-accessories" },
     basePrice: 2499,
     baseMrp: 4999,
-    images: ["/images/products/dupatta-gold.jpg"],
+    images: [asset("products", "dupatta-gold")],
     isBestseller: false,
     isNewArrival: true,
     variants: [
@@ -187,7 +194,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-1-5", name: "Designer Sarees", slug: "designer-sarees" },
     basePrice: 11999,
     baseMrp: 18999,
-    images: ["/images/products/saree-green.jpg"],
+    images: [asset("products", "saree-green")],
     isBestseller: true,
     isNewArrival: true,
     variants: [
@@ -205,7 +212,7 @@ export const DUMMY_PRODUCTS = [
     subcategory: { id: "sub-3-2", name: "Designer Lehengas", slug: "designer-lehengas" },
     basePrice: 18999,
     baseMrp: 29999,
-    images: ["/images/products/lehenga-pink.jpg"],
+    images: [asset("products", "lehenga-pink")],
     isBestseller: false,
     isNewArrival: true,
     variants: [
@@ -219,7 +226,7 @@ export const DUMMY_PRODUCTS = [
 // First slide carries the headline + CTAs; the rest are image-only (no ctaText) and link to ctaUrl.
 export const HERO_SLIDES = [
   {
-    imageUrl: "/images/hero/hero-1.jpg",
+    imageUrl: asset("hero", "hero-1"),
     heading: "Discover the Art of Tradition",
     subheading: "Shop New Arrivals & Explore Collections",
     ctaText: "Shop New Arrivals",
@@ -227,9 +234,9 @@ export const HERO_SLIDES = [
     secondaryCtaText: "Explore Collections",
     secondaryCtaUrl: "/shop",
   },
-  { imageUrl: "/images/hero/hero-2.jpg", heading: "Banarasi Silk Saree", ctaUrl: "/category/sarees?sub=banarasi" },
-  { imageUrl: "/images/hero/hero-3.jpg", heading: "Bridal Lehenga Collection", ctaUrl: "/category/lehengas?sub=bridal-lehengas" },
-  { imageUrl: "/images/hero/hero-4.jpg", heading: "Anarkali Suits", ctaUrl: "/category/suits?sub=anarkali" },
+  { imageUrl: asset("hero", "hero-2"), heading: "Banarasi Silk Saree", ctaUrl: "/category/sarees?sub=banarasi" },
+  { imageUrl: asset("hero", "hero-3"), heading: "Bridal Lehenga Collection", ctaUrl: "/category/lehengas?sub=bridal-lehengas" },
+  { imageUrl: asset("hero", "hero-4"), heading: "Anarkali Suits", ctaUrl: "/category/suits?sub=anarkali" },
 ];
 
 export const DUMMY_TESTIMONIALS = [
@@ -264,8 +271,8 @@ export const DUMMY_TESTIMONIALS = [
 ];
 
 export const DUMMY_REELS = [
-  { id: "reel-1", image: "/images/reels/reel-1.jpg", caption: "Wedding Season Favorites", productSlug: "royal-banarasi-silk-saree" },
-  { id: "reel-2", image: "/images/reels/reel-2.jpg", caption: "Bridal Collection 2026", productSlug: "blush-pink-bridal-lehenga" },
-  { id: "reel-3", image: "/images/reels/reel-3.jpg", caption: "Festive Ready", productSlug: "navy-zardozi-anarkali" },
-  { id: "reel-4", image: "/images/reels/reel-4.jpg", caption: "Everyday Elegance", productSlug: "teal-embroidered-kurti" },
+  { id: "reel-1", image: asset("reels", "reel-1"), caption: "Wedding Season Favorites", productSlug: "royal-banarasi-silk-saree" },
+  { id: "reel-2", image: asset("reels", "reel-2"), caption: "Bridal Collection 2026", productSlug: "blush-pink-bridal-lehenga" },
+  { id: "reel-3", image: asset("reels", "reel-3"), caption: "Festive Ready", productSlug: "navy-zardozi-anarkali" },
+  { id: "reel-4", image: asset("reels", "reel-4"), caption: "Everyday Elegance", productSlug: "teal-embroidered-kurti" },
 ];

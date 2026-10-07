@@ -14,8 +14,8 @@ import {
 
 const prisma = new PrismaClient();
 
-// Local /public assets have no Cloudinary id; this marker lets media cleanup skip them.
-const LOCAL_ASSET = "local";
+/** Cloudinary public id (ghero/<folder>/<name>) from a delivery URL, so media cleanup can find the asset. */
+const publicId = (url: string) => url.replace(/^.*\/upload\/(v\d+\/)?/, "").replace(/\.[a-z0-9]+$/i, "");
 
 async function seedCatalog() {
   const categoryIds = new Map<string, string>();
@@ -82,7 +82,7 @@ async function seedCatalog() {
       data: p.images.map((url, i) => ({
         productId: product.id,
         url,
-        cloudinaryId: LOCAL_ASSET,
+        cloudinaryId: publicId(url),
         alt: p.name,
         displayOrder: i,
       })),
@@ -96,7 +96,7 @@ async function seedHomepage(categoryIds: Map<string, string>) {
   // Singleton-ish CMS rows without natural keys: replace wholesale.
   await prisma.homepageHero.deleteMany();
   await prisma.homepageHero.createMany({
-    data: HERO_SLIDES.map((slide, i) => ({ ...slide, imageCloudinaryId: LOCAL_ASSET, displayOrder: i })),
+    data: HERO_SLIDES.map((slide, i) => ({ ...slide, imageCloudinaryId: publicId(slide.imageUrl), displayOrder: i })),
   });
 
   await prisma.homepageCategory.deleteMany();
@@ -105,7 +105,7 @@ async function seedHomepage(categoryIds: Map<string, string>) {
       categoryId: categoryIds.get(c.slug),
       name: c.name,
       imageUrl: c.image,
-      cloudinaryId: LOCAL_ASSET,
+      cloudinaryId: publicId(c.image),
       link: `/category/${c.slug}`,
       displayOrder: i,
     })),
@@ -120,7 +120,7 @@ async function seedHomepage(categoryIds: Map<string, string>) {
   await prisma.homepageReel.createMany({
     data: DUMMY_REELS.map((r, i) => ({
       mediaUrl: r.image,
-      cloudinaryId: LOCAL_ASSET,
+      cloudinaryId: publicId(r.image),
       mediaType: "image",
       caption: r.caption,
       productId: productIds.get(r.productSlug),
