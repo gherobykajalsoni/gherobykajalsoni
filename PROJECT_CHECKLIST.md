@@ -360,28 +360,28 @@
 - [x] Homepage API to serve all CMS content
 
 ## Phase 11: Coupons
-- [ ] Coupon model and migration
-- [ ] Apply coupon API (server-side validation)
-- [ ] Remove coupon API
-- [ ] Percentage discount calculation
-- [ ] Flat discount calculation
-- [ ] Cart value vs MRP application logic
-- [ ] Usage tracking
-- [ ] Per-user usage tracking
-- [ ] Expiry validation
-- [ ] Minimum cart value validation
-- [ ] Maximum discount cap
-- [ ] Coupon code uniqueness
+- [x] Coupon model and migration
+- [x] Apply coupon API (server-side validation)
+- [x] Remove coupon API
+- [x] Percentage discount calculation
+- [x] Flat discount calculation
+- [x] Cart value vs MRP application logic
+- [x] Usage tracking
+- [x] Per-user usage tracking
+- [x] Expiry validation
+- [x] Minimum cart value validation
+- [x] Maximum discount cap
+- [x] Coupon code uniqueness
 
 ## Phase 12: Email Automation
-- [ ] Email service (Google SMTP)
-- [ ] Email template: OTP/Verification
-- [ ] Email template: Order Confirmation
-- [ ] Email template: Shipped (with tracking URL/CTA)
-- [ ] Email template: Delivered
-- [ ] EmailEvent tracking in database
-- [ ] Idempotent email sending (no duplicates)
-- [ ] Professional branded email design
+- [x] Email service (Google SMTP)
+- [x] Email template: OTP/Verification
+- [x] Email template: Order Confirmation
+- [x] Email template: Shipped (with tracking URL/CTA)
+- [x] Email template: Delivered
+- [x] EmailEvent tracking in database
+- [x] Idempotent email sending (no duplicates)
+- [x] Professional branded email design
 
 ## Phase 13: WhatsApp Integration
 - [ ] WhatsAppService abstraction

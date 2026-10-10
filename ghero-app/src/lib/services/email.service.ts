@@ -127,7 +127,7 @@ function orderEmailContent(event: OrderEmailEvent, order: OrderForEmail) {
 /**
  * Send an order lifecycle email at most once. The EmailEvent row is claimed first
  * (unique on eventType + orderId), so concurrent/replayed triggers can't double-send.
- * Failures are recorded and swallowed: notifications must never break order processing.
+ * A FAILED send can be retried by triggering the event again. Failures are recorded and swallowed: notifications must never break order processing.
  */
 export async function sendOrderEmail(event: OrderEmailEvent, order: OrderForEmail) {
   try {
@@ -135,7 +135,13 @@ export async function sendOrderEmail(event: OrderEmailEvent, order: OrderForEmai
       data: { eventType: event, recipient: order.shippingEmail, orderId: order.id, status: "PENDING" },
     });
   } catch {
-    return; // already sent (or in flight) for this order + event
+    // Already sent or in flight: skip. A previously FAILED send is reclaimed (atomically, so
+    // concurrent retries can't both win) and tried again.
+    const reclaimed = await prisma.emailEvent.updateMany({
+      where: { eventType: event, orderId: order.id, status: "FAILED" },
+      data: { status: "PENDING" },
+    });
+    if (reclaimed.count === 0) return;
   }
   try {
     const { subject, title, body } = orderEmailContent(event, order);
