@@ -12,8 +12,8 @@ const schema = z.object({
 /** Admin panel sign-in (email + password; no OTP). Rate-limited per IP and per email. */
 export const POST = handle(async (request: Request) => {
   const { email, password } = await parseBody(request, schema);
-  const ipOk = rateLimit({ key: `admin-login-ip:${clientIp(request)}`, limit: 10, windowSeconds: 900 }).success;
-  const emailOk = rateLimit({ key: `admin-login-email:${email}`, limit: 10, windowSeconds: 900 }).success;
+  const ipOk = (await rateLimit({ key: `admin-login-ip:${clientIp(request)}`, limit: 10, windowSeconds: 900 })).success;
+  const emailOk = (await rateLimit({ key: `admin-login-email:${email}`, limit: 10, windowSeconds: 900 })).success;
   if (!ipOk || !emailOk) throw tooMany("Too many sign-in attempts. Please wait 15 minutes and try again.");
 
   const user = await verifyAdminCredentials(email, password);

@@ -15,7 +15,7 @@ const contactSchema = z.object({
 
 /** Contact form: emails the store inbox (Reply-To = customer). */
 export const POST = handle(async (request: Request) => {
-  if (!rateLimit({ key: `contact:${clientIp(request)}`, limit: 5, windowSeconds: 3600 }).success) {
+  if (!(await rateLimit({ key: `contact:${clientIp(request)}`, limit: 5, windowSeconds: 3600 })).success) {
     throw tooMany("You've sent several messages already. Please try again later or email us directly.");
   }
   const { website, ...msg } = await parseBody(request, contactSchema);

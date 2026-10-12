@@ -9,7 +9,7 @@ export const POST = handle(async (request: Request) => {
   const device = await getPosDevice();
   if (!device) throw unauthorized("This device isn't set up for the POS yet");
   // Per-staff lockout is in the DB (verifyStaffPin); this only slows down a single noisy client.
-  if (!rateLimit({ key: `pos-pin-ip:${clientIp(request)}`, limit: 30, windowSeconds: 900 }).success) {
+  if (!(await rateLimit({ key: `pos-pin-ip:${clientIp(request)}`, limit: 30, windowSeconds: 900 })).success) {
     throw tooMany("Too many attempts. Please wait a few minutes.");
   }
   const staff = await verifyStaffPin(staffId, pin);

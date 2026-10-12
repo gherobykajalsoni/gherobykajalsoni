@@ -6,7 +6,7 @@ import { verifyOtpAndGetUser } from "@/lib/services/auth.service";
 import { mergeGuestCart } from "@/lib/services/cart.service";
 
 export const POST = handle(async (request: Request) => {
-  if (!rateLimit({ key: `verify-ip:${clientIp(request)}`, limit: 30, windowSeconds: 900 }).success) {
+  if (!(await rateLimit({ key: `verify-ip:${clientIp(request)}`, limit: 30, windowSeconds: 900 })).success) {
     throw tooMany("Too many attempts. Please try again later.");
   }
   const { email, otp, name, phone } = await parseBody(request, verifyOtpSchema);

@@ -10,7 +10,7 @@ import { formatStoreAddress, getStoreSettings } from "@/lib/services/store-setti
 export const POST = posRoute("CASHIER", async (_session, request: Request, ctx: { params: Promise<{ id: string }> }) => {
   const { id } = await ctx.params;
   const { email } = await parseBody(request, emailBillSchema);
-  if (!rateLimit({ key: `pos-bill-email:${clientIp(request)}`, limit: 30, windowSeconds: 3600 }).success) {
+  if (!(await rateLimit({ key: `pos-bill-email:${clientIp(request)}`, limit: 30, windowSeconds: 3600 })).success) {
     throw tooMany("Too many emails sent. Please try again later.");
   }
   const [bill, s] = await Promise.all([getBill(id), getStoreSettings()]);

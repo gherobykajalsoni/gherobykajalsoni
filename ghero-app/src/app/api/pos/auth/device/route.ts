@@ -7,8 +7,8 @@ import { deviceSignInSchema } from "@/lib/validations/pos";
 /** Register this browser as a POS device (owner / manager email + password) and sign in. */
 export const POST = handle(async (request: Request) => {
   const { email, password, deviceName } = await parseBody(request, deviceSignInSchema);
-  const ipOk = rateLimit({ key: `pos-device-ip:${clientIp(request)}`, limit: 10, windowSeconds: 900 }).success;
-  const emailOk = rateLimit({ key: `pos-device-email:${email}`, limit: 10, windowSeconds: 900 }).success;
+  const ipOk = (await rateLimit({ key: `pos-device-ip:${clientIp(request)}`, limit: 10, windowSeconds: 900 })).success;
+  const emailOk = (await rateLimit({ key: `pos-device-email:${email}`, limit: 10, windowSeconds: 900 })).success;
   if (!ipOk || !emailOk) throw tooMany("Too many sign-in attempts. Please wait 15 minutes and try again.");
 
   const user = await verifyDeviceCredentials(email, password);

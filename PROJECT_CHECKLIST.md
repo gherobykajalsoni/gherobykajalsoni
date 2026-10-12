@@ -384,48 +384,48 @@
 - [x] Professional branded email design
 
 ## Phase 13: WhatsApp Integration
-- [ ] WhatsAppService abstraction
-- [ ] sendOTP() method
-- [ ] sendOrderConfirmation() method
-- [ ] sendShippingUpdate() method
-- [ ] sendDeliveryUpdate() method
-- [ ] sendCustomMessage() method
-- [ ] Provider configuration via env vars
-- [ ] Feature flag (WHATSAPP_ENABLED)
-- [ ] WhatsAppEvent tracking in database
-- [ ] Graceful fallback when disabled
+- [x] WhatsAppService abstraction
+- [x] sendOTP() method
+- [x] sendOrderConfirmation() method
+- [x] sendShippingUpdate() method
+- [x] sendDeliveryUpdate() method
+- [x] sendCustomMessage() method
+- [x] Provider configuration via env vars
+- [x] Feature flag (WHATSAPP_ENABLED)
+- [x] WhatsAppEvent tracking in database
+- [x] Graceful fallback when disabled
 
 ## Phase 14: Security Hardening
-- [ ] Server-side authorization on all protected routes
-- [ ] Role-based access control verification
-- [ ] Zod validation on all inputs
-- [ ] Input sanitization
-- [ ] Secure cookie configuration
-- [ ] CSRF protection
-- [ ] Rate limiting (OTP, auth, API)
-- [ ] OTP brute-force protection
-- [ ] HTTP security headers
-- [ ] Content Security Policy
-- [ ] Secure file upload validation (MIME, size)
-- [ ] Razorpay signature verification
-- [ ] Razorpay webhook verification
-- [ ] Idempotency for payments
-- [ ] Idempotency for notifications
-- [ ] Server-side pricing validation
-- [ ] Server-side coupon validation
-- [ ] Server-side inventory validation
-- [ ] Secret protection (no client exposure)
+- [x] Server-side authorization on all protected routes
+- [x] Role-based access control verification
+- [x] Zod validation on all inputs
+- [x] Input sanitization
+- [x] Secure cookie configuration
+- [x] CSRF protection
+- [x] Rate limiting (OTP, auth, API) *(in-memory by default; set UPSTASH_REDIS_REST_URL/TOKEN for production)*
+- [x] OTP brute-force protection
+- [x] HTTP security headers *(next.config.ts)*
+- [x] Content Security Policy *(next.config.ts; allows Razorpay, Cloudinary)*
+- [x] Secure file upload validation (MIME, size)
+- [x] Razorpay signature verification *(code-verified; live check pending Razorpay test keys)*
+- [x] Razorpay webhook verification *(bad signature rejected; live check pending Razorpay test keys)*
+- [x] Idempotency for payments *(code-verified; live check pending Razorpay test keys)*
+- [x] Idempotency for notifications
+- [x] Server-side pricing validation
+- [x] Server-side coupon validation
+- [x] Server-side inventory validation
+- [x] Secret protection (no client exposure)
 
 ## Phase 15: SEO, Performance & Accessibility
 
 ### SEO
-- [ ] Dynamic metadata (products, categories)
-- [ ] Open Graph metadata
-- [ ] Twitter/X metadata
+- [x] Dynamic metadata (products, categories)
+- [x] Open Graph metadata
+- [x] Twitter/X metadata
 - [ ] Canonical URLs
-- [ ] Sitemap generation
-- [ ] robots.txt
-- [ ] Product structured data (JSON-LD)
+- [x] Sitemap generation *(src/app/sitemap.ts)*
+- [x] robots.txt *(src/app/robots.ts)*
+- [x] Product structured data (JSON-LD)
 - [ ] Breadcrumb structured data
 
 ### Performance
